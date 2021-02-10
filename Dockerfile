@@ -16,10 +16,10 @@ RUN conda install -c conda-forge -c bioconda \
 
 WORKDIR /git
 ENV CADD_VERSION 1.6
-RUN wget https://github.com/kircherlab/CADD-scripts/archive/CADD${CADD_VERSION}.tar.gz && \
-  tar -zxf CADD${CADD_VERSION}.tar.gz && \
-  mv CADD-scripts-CADD1.6 CADD-scripts && \
-  rm CADD${CADD_VERSION}.tar.gz 
+ENV CADD_COMMIT "7502f479d70d611bde31cbff77eb7ea855ea19b3"
+RUN git clone https://github.com/kircherlab/CADD-scripts.git && \
+  cd CADD-scripts && \
+  git checkout $CADD_COMMIT
 
 WORKDIR /git/CADD-scripts
 RUN snakemake test/input.tsv.gz \
